@@ -1,12 +1,54 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'motion/react';
 import AnimatedBackground from './AnimatedBackground';
 
+const heroSlides = [
+  {
+    id: 1,
+    image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=1000&q=80',
+    collection: '26',
+    alt: 'Безалкогольные напитки премиум класса'
+  },
+  {
+    id: 2,
+    image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=1000&q=80',
+    collection: '25',
+    alt: 'Новая коллекция напитков'
+  },
+  {
+    id: 3,
+    image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=1000&q=80',
+    collection: '24',
+    alt: 'Премиальные миксеры'
+  },
+  {
+    id: 4,
+    image: 'https://images.unsplash.com/photo-1622543925917-1856240108ae?w=1000&q=80',
+    collection: '23',
+    alt: 'Освежающие напитки'
+  }
+];
+
 export default function Hero() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Автоматическая смена слайдов каждые 5 секунд
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="relative min-h-screen bg-white overflow-hidden">
       
-      {/* Подключаем анимированный фон */}
+      {/* Анимированный фон */}
       <AnimatedBackground opacity={0.08} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,24 +92,64 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Изображение */}
+          {/* Изображение с анимацией */}
           <div className="lg:col-span-7 relative">
-            <div className="relative aspect-[4/5] lg:aspect-[3/4]">
-              <Image 
-                src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=1000&q=80"
-                alt="Безалкогольные напитки премиум класса"
-                fill
-                className="object-cover"
-                priority
-              />
+            <div className="relative aspect-[4/5] lg:aspect-[3/4] overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image 
+                    src={heroSlides[currentSlide].image}
+                    alt={heroSlides[currentSlide].alt}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
             
-            {/* Декоративный элемент */}
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white flex items-center justify-center ">
-              <div className="text-center">
-                <div className="text-3xl font-light text-gray-900">26</div>
-                <div className="text-[10px] uppercase tracking-wider text-gray-500">Коллекция</div>
-              </div>
+            {/* Декоративный элемент с номером коллекции */}
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white flex items-center justify-center hidden sm:flex">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={heroSlides[currentSlide].collection}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-center"
+                >
+                  <div className="text-3xl font-light text-gray-900">
+                    {heroSlides[currentSlide].collection}
+                  </div>
+                  <div className="text-[10px] uppercase tracking-wider text-gray-500">
+                    Коллекция
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Индикаторы слайдов */}
+            <div className="absolute bottom-8 right-8 hidden lg:flex gap-2">
+              {heroSlides.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === currentSlide 
+                      ? 'bg-gray-900 w-8' 
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Слайд ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
           

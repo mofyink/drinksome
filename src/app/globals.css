@@ -102,3 +102,18 @@ body {
 .animate-slide-diagonal-reverse {
   animation: slide-diagonal-reverse 45s ease-in-out infinite;
 }
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s ease-in-out infinite;
+}
