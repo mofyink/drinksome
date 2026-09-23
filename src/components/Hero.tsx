@@ -1,69 +1,76 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import AnimatedBackground from './AnimatedBackground';
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-teal-50">
-      {/* Декоративные круги на фоне */}
-      <div className="absolute top-20 -left-20 w-72 h-72 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-      <div className="absolute top-40 -right-20 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-      <div className="absolute -bottom-8 left-20 w-72 h-72 bg-cyan-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+    <section className="relative min-h-screen bg-white overflow-hidden">
+      
+      {/* Подключаем анимированный фон */}
+      <AnimatedBackground opacity={0.08} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Левая часть: текст */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight">
-                Вкус без
-                <span className="text-emerald-600"> компромиссов</span>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-12 gap-8 min-h-screen items-center py-20">
+          
+          {/* Текстовая часть */}
+          <div className="lg:col-span-5 space-y-8 text-center lg:text-left">
+            <div className="space-y-6">
+              <div className="w-12 h-px bg-gray-900 mb-8 mx-auto lg:mx-0"></div>
+              
+              <p className="text-xs uppercase tracking-[0.3em] text-gray-500 font-medium">
+                Безалкогольные напитки
+              </p>
+              
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-gray-900 leading-[0.9] tracking-tight">
+                Новый
+                <br />
+                <span className="font-normal">вкус</span>
+                <br />
+                свободы
               </h1>
-              <p className="text-xl lg:text-2xl text-gray-600 leading-relaxed">
-                Премиальные безалкогольные напитки, основы для коктейлей и миксеры для тех, кто ценит качество и заботится о здоровье
+              
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-sm mx-auto lg:mx-0 pt-4">
+                Коллекция премиальных безалкогольных напитков для тех, кто выбирает осознанность без потери качества
               </p>
             </div>
 
-            {/* Кнопки */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 pt-8 justify-center lg:justify-start">
               <Link 
                 href="/catalog"
-                className="inline-flex items-center justify-center px-8 py-4 bg-emerald-600 text-white font-semibold rounded-full hover:bg-emerald-700 transition-all hover:scale-105 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center justify-center px-8 py-3.5 bg-gray-900 text-white text-xs font-medium tracking-widest uppercase hover:bg-gray-800 transition-colors"
               >
-                Смотреть каталог
+                Каталог
               </Link>
               <Link 
                 href="/about"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white text-gray-900 font-semibold rounded-full border-2 border-gray-200 hover:border-emerald-600 hover:text-emerald-600 transition-all"
+                className="inline-flex items-center justify-center px-8 py-3.5 text-gray-900 text-xs font-medium tracking-widest uppercase border border-gray-300 hover:border-gray-900 transition-colors"
               >
-                О бренде
+                О нас
               </Link>
             </div>
+          </div>
 
-            {/* Преимущества */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-gray-200">
-              <div>
-                <div className="text-3xl font-bold text-emerald-600">0%</div>
-                <div className="text-sm text-gray-600 mt-1">Алкоголя</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-emerald-600">100%</div>
-                <div className="text-sm text-gray-600 mt-1">Натурально</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-emerald-600">∞</div>
-                <div className="text-sm text-gray-600 mt-1">Удовольствия</div>
+          {/* Изображение */}
+          <div className="lg:col-span-7 relative">
+            <div className="relative aspect-[4/5] lg:aspect-[3/4]">
+              <Image 
+                src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=1000&q=80"
+                alt="Безалкогольные напитки премиум класса"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+            
+            {/* Декоративный элемент */}
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white flex items-center justify-center ">
+              <div className="text-center">
+                <div className="text-3xl font-light text-gray-900">26</div>
+                <div className="text-[10px] uppercase tracking-wider text-gray-500">Коллекция</div>
               </div>
             </div>
           </div>
-
-          {/* Правая часть: изображение/визуал */}
-          <div className="relative lg:h-[600px] flex items-center justify-center">
-            <div className="relative w-full h-full bg-gradient-to-br from-emerald-100 to-teal-100 rounded-3xl flex items-center justify-center">
-              <div className="text-center space-y-4">
-                <div className="text-8xl">🍹</div>
-                <p className="text-gray-600 text-lg">Место для изображения продукта</p>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
     </section>
