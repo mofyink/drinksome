@@ -52,17 +52,20 @@ export default function AboutPage() {
         <AnimatedBackground opacity={0.03} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Заголовок секции */}
           <div className="text-center mb-24">
-            <p className="text-xs uppercase tracking-[0.3em] text-gray-500 font-medium mb-4">
-              Наша история
-            </p>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light text-gray-900 tracking-tight leading-[0.9]">
-              Путь от идеи
-              <br />
-              <span className="font-serif italic">до коллекции</span>
-            </h2>
-          </div>
+  <div className="flex items-center justify-center gap-6 mb-8">
+    <div className="w-16 h-px bg-gray-900"></div>
+    <p className="text-xs uppercase tracking-[0.3em] text-gray-500 font-medium">
+      Наша история
+    </p>
+    <div className="w-16 h-px bg-gray-900"></div>
+  </div>
+  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light text-gray-900 tracking-tight leading-[0.9]">
+    Путь от идеи
+    <br />
+    <span className="font-serif italic">до коллекции</span>
+  </h2>
+</div>
 
           {/* Глава 1 — Арка вверх */}
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-32">

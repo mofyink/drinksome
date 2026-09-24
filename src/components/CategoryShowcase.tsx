@@ -6,6 +6,18 @@ import Link from 'next/link';
 import { categories } from '@/data/categories';
 import AnimatedBackground from './AnimatedBackground';
 
+// Маппинг showcase категорий на категории товаров
+function getCategoryFilter(slug: string): string {
+  const mapping: Record<string, string> = {
+    'spirits': 'Спириты',
+    'bases': 'Основы',
+    'drinks': 'Напитки',
+    'tonic': 'Тоники',
+    'bitters': 'Биттеры',
+  };
+  return mapping[slug] || slug;
+}
+
 // Дублируем категории до 7 штук
 const showcaseCategories = [
   ...categories,
@@ -112,7 +124,7 @@ function MobileCard({ category, index }: {
   return (
     <Link
       ref={ref}
-      href={`/catalog?category=${category.slug}`}
+      href={`/catalog?category=${getCategoryFilter(category.slug)}`}
       className="block relative w-full h-[50vh] transition-transform duration-700 ease-out"
       style={{
         transform: isVisible ? 'translateX(0)' : 'translateX(100%)',
@@ -152,7 +164,7 @@ function DesktopCard({ category, index }: {
 }) {
   return (
     <Link
-      href={`/catalog?category=${category.slug}`}
+      href={`/catalog?category=${getCategoryFilter(category.slug)}`}
       className="group relative w-[350px] h-screen flex-shrink-0 transition-all duration-700 ease-out hover:-translate-x-20 hover:z-50"
       style={{
         marginLeft: index === 0 ? '0' : '-100px',

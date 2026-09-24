@@ -124,9 +124,15 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
             {/* Кнопка заказа */}
             <div className="mt-8 pt-8 border-t border-gray-200">
-              <button className="w-full py-4 bg-gray-900 text-white text-xs font-medium tracking-widest uppercase hover:bg-gray-800 transition-colors">
-                Добавить в корзину
-              </button>
+              {/* Ссылка на товар в магазине — замени href на нужный URL */}
+<a 
+  href={`https://example.com/product/${product.slug}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="block w-full py-3 bg-gray-900 text-white text-xs font-medium tracking-widest uppercase hover:bg-gray-800 transition-colors text-center"
+>
+  Заказать
+</a>
             </div>
           </div>
         </div>
