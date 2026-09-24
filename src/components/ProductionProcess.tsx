@@ -7,7 +7,8 @@ import { productionSteps } from '@/data/production';
 
 export default function ProductionProcess() {
   const timelineRef = useRef<HTMLDivElement>(null);
-  const lineRef = useRef<HTMLDivElement>(null);
+  const desktopLineRef = useRef<HTMLDivElement>(null);
+  const mobileLineRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -17,13 +18,11 @@ export default function ProductionProcess() {
       const rect = timelineRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // Вычисляем прогресс скролла по таймлайну (0 = начало, 1 = конец)
       const timelineTop = rect.top;
       const timelineHeight = rect.height;
       
-      // Прогресс: когда таймлайн начинает входить в viewport и когда полностью проходит
-      const startOffset = windowHeight * 0.5; // Начинаем анимацию когда таймлайн на середине экрана
-      const endOffset = windowHeight * 0.3; // Заканчиваем когда таймлайн почти ушёл
+      const startOffset = windowHeight * 0.5;
+      const endOffset = windowHeight * 0.3;
       
       const scrolled = Math.max(0, Math.min(1, 
         (startOffset - timelineTop) / (timelineHeight + startOffset - endOffset)
@@ -31,10 +30,22 @@ export default function ProductionProcess() {
 
       setScrollProgress(scrolled);
 
-      // Анимация линии
-      if (lineRef.current) {
+      // Десктопная линия — обычная скорость
+      if (desktopLineRef.current) {
         const progressPercent = scrolled * 100;
-        lineRef.current.style.background = `linear-gradient(to bottom, 
+        desktopLineRef.current.style.background = `linear-gradient(to bottom, 
+          rgb(17, 24, 39) 0%, 
+          rgb(17, 24, 39) ${progressPercent}%, 
+          rgb(229, 231, 235) ${progressPercent}%, 
+          rgb(229, 231, 235) 100%
+        )`;
+      }
+
+      // Мобильная линия — ускоренная (в 1.5 раза быстрее)
+      if (mobileLineRef.current) {
+        const fastProgress = Math.min(1, scrolled * 1.5);
+        const progressPercent = fastProgress * 100;
+        mobileLineRef.current.style.background = `linear-gradient(to bottom, 
           rgb(17, 24, 39) 0%, 
           rgb(17, 24, 39) ${progressPercent}%, 
           rgb(229, 231, 235) ${progressPercent}%, 
@@ -76,13 +87,17 @@ export default function ProductionProcess() {
           
           {/* Центральная линия — десктоп */}
           <div 
-            ref={lineRef}
+            ref={desktopLineRef}
             className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 hidden lg:block"
             style={{ background: 'rgb(229, 231, 235)' }}
           ></div>
 
-          {/* Линия — мобильная */}
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-gray-200 lg:hidden"></div>
+          {/* Линия — мобильная (теперь анимированная, быстрее) */}
+          <div 
+            ref={mobileLineRef}
+            className="absolute left-6 top-0 bottom-0 w-px lg:hidden"
+            style={{ background: 'rgb(229, 231, 235)' }}
+          ></div>
 
           {/* Этапы */}
           <div className="space-y-20 lg:space-y-32">
@@ -94,6 +109,7 @@ export default function ProductionProcess() {
                 isLeft={index % 2 === 0}
                 scrollProgress={scrollProgress}
                 totalSteps={productionSteps.length}
+                isMobile
               />
             ))}
           </div>
@@ -105,19 +121,23 @@ export default function ProductionProcess() {
   );
 }
 
-function TimelineCard({ step, index, isLeft, scrollProgress, totalSteps }: { 
+function TimelineCard({ step, index, isLeft, scrollProgress, totalSteps, isMobile }: { 
   step: typeof productionSteps[0]; 
   index: number;
   isLeft: boolean;
   scrollProgress: number;
   totalSteps: number;
+  isMobile?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  // Вычисляем, когда линия должна достичь этого шага
+  // Вычисляем порог активации шага
+  // На мобильных — раньше (линия быстрее), на десктопе — как обычно
+  const speedMultiplier = isMobile ? 1.5 : 1;
+  const adjustedProgress = Math.min(1, scrollProgress * speedMultiplier);
   const stepThreshold = (index + 0.5) / totalSteps;
-  const isActive = scrollProgress >= stepThreshold;
+  const isActive = adjustedProgress >= stepThreshold;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
