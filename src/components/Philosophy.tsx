@@ -131,47 +131,67 @@ export default function Philosophy() {
         {/* Средняя часть: изображение и текст */}
         <div className="grid lg:grid-cols-12 gap-12 mb-24">
           
-          {/* Изображение */}
-          <div className="lg:col-span-5 lg:col-start-2">
-            <div className="relative aspect-[3/4] overflow-hidden">
-              <Image 
-                src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800&q=80"
-                alt="Философия бренда"
-                fill
-                className="object-cover"
-              />
-              
-              {/* Декоративная рамка */}
-              <div className="absolute inset-4 border border-white/30 pointer-events-none"></div>
-            </div>
-            
-            {/* Подпись под изображением */}
-            <div className="mt-6 flex items-center gap-4">
-              <div className="w-12 h-px bg-gray-900"></div>
-              <p className="text-xs text-gray-500 tracking-wide">
-                Качество в каждой детали
-              </p>
-            </div>
-          </div>
+          {/* Изображение с SVG формой */}
+<div className="lg:col-span-5 lg:col-start-2">
+  <div className="relative aspect-[3/4]">
+    {/* SVG с формой для вырезки */}
+    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 533" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <clipPath id="organicShape" clipPathUnits="objectBoundingBox">
+          
+          {/* <path d="M 0.1 1 L 0.1 0.3 C 0.1 0.1, 0.3 0, 0.5 0 C 0.7 0, 0.9 0.1, 0.9 0.3 L 0.9 1 Z" /> - арка */}
+           <path d="M 0.5 0 C 0.75 0, 1 0.1, 1 0.25 L 1 0.85 C 1 0.95, 0.85 1, 0.7 1 L 0.3 1 C 0.15 1, 0 0.95, 0 0.85 L 0 0.25 C 0 0.1, 0.25 0, 0.5 0 Z" />
+        </clipPath>
+      </defs>
+      
+      {/* Изображение с clip-path */}
+      <foreignObject x="0" y="0" width="100%" height="100%" clipPath="url(#organicShape)">
+        <Image 
+          src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800&q=80"
+          alt="Философия бренда"
+          fill
+          className="object-cover"
+        />
+      </foreignObject>
+      
+      
+    </svg>
+  </div>
+  
+  
+</div>
 
-          {/* Текст */}
-          <div className="lg:col-span-5 lg:col-start-8 space-y-8">
-            
-            <div className="space-y-6">
-              <p className="text-xl text-gray-700 leading-relaxed">
-                Каждый наш напиток — это результат тщательного отбора ингредиентов и мастерства создания вкуса.
-              </p>
-              
-              <p className="text-xl text-gray-700 leading-relaxed">
-                Мы создаём напитки для тех, кто выбирает осознанность, не отказываясь от удовольствия.
-              </p>
-              
-              <p className="text-lg text-gray-600 leading-relaxed pt-4 border-l-2 border-gray-900 pl-6">
-                Наша коллекция — это не просто альтернатива алкоголю. Это новый взгляд на культуру потребления, где качество, вкус и стиль идут рука об руку с заботой о себе.
-              </p>
-            </div>
+{/* Правая часть: текст на всю высоту картинки */}
+<div className="lg:col-span-5 lg:col-start-8 flex flex-col justify-between min-h-full">
+  
+  {/* Первые два параграфа сверху с отступом */}
+  <div className="space-y-6 pt-8 text-center lg:text-left">
+    <p className="text-xl text-gray-700 leading-relaxed">
+      Каждый наш напиток — это результат тщательного отбора ингредиентов и мастерства создания вкуса.
+    </p>
+    
+    <p className="text-xl text-gray-700 leading-relaxed">
+      Мы создаём напитки для тех, кто выбирает осознанность, не отказываясь от удовольствия.
+    </p>
+  </div>
 
-          </div>
+  {/* Три точки в пустом пространстве */}
+  <div className="flex items-center justify-center py-12">
+    <div className="flex flex-col items-center gap-3">
+      <span className="w-1.5 h-1.5 bg-black rounded-full"></span>
+      <span className="w-1.5 h-1.5 bg-black rounded-full"></span>
+      <span className="w-1.5 h-1.5 bg-black rounded-full"></span>
+    </div>
+  </div>
+
+  {/* Цитата снизу с отступом */}
+  <div className="pb-8 text-center lg:text-left">
+    <p className="text-lg text-gray-600 leading-relaxed pt-4">
+      Наша коллекция — это не просто альтернатива алкоголю. Это новый взгляд на культуру потребления, где качество, вкус и стиль идут рука об руку с заботой о себе.
+    </p>
+  </div>
+
+</div>
         </div>
 
                 {/* Нижняя часть: статистика */}

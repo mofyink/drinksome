@@ -36,7 +36,6 @@ const heroSlides = [
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Автоматическая смена слайдов каждые 5 секунд
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -48,13 +47,11 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen bg-white overflow-hidden">
       
-      {/* Анимированный фон */}
       <AnimatedBackground opacity={0.08} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-8 min-h-screen items-center py-20">
           
-          {/* Текстовая часть */}
           <div className="lg:col-span-5 space-y-8 text-center lg:text-left">
             <div className="space-y-6">
               <div className="w-12 h-px bg-gray-900 mb-8 mx-auto lg:mx-0"></div>
@@ -92,7 +89,6 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Изображение с анимацией */}
           <div className="lg:col-span-7 relative">
             <div className="relative aspect-[4/5] lg:aspect-[3/4] overflow-hidden">
               <AnimatePresence mode="wait">
@@ -115,8 +111,7 @@ export default function Hero() {
               </AnimatePresence>
             </div>
             
-            {/* Декоративный элемент с номером коллекции */}
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white flex items-center justify-center hidden sm:flex">
+            <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-24 sm:h-24 bg-white flex items-center justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={heroSlides[currentSlide].collection}
@@ -136,7 +131,6 @@ export default function Hero() {
               </AnimatePresence>
             </div>
 
-            {/* Индикаторы слайдов */}
             <div className="absolute bottom-8 right-8 hidden lg:flex gap-2">
               {heroSlides.map((_, index) => (
                 <button

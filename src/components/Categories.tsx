@@ -1,57 +1,28 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import AnimatedBackground from './AnimatedBackground';
-
-const categories = [
-  {
-    id: 1,
-    title: 'Спириты',
-    description: 'Безалкогольные альтернативы классическим напиткам',
-    slug: 'spirits',
-    image: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=600&q=80'
-  },
-  {
-    id: 2,
-    title: 'Основы',
-    description: 'Профессиональные базы для коктейлей',
-    slug: 'bases',
-    image: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600&q=80'
-  },
-  {
-    id: 3,
-    title: 'Напитки',
-    description: 'Готовые освежающие напитки',
-    slug: 'drinks',
-    image: 'https://images.unsplash.com/photo-1622543925917-1856240108ae?w=600&q=80'
-  },
-  {
-    id: 4,
-    title: 'Миксеры',
-    description: 'Премиальные миксеры для идеального вкуса',
-    slug: 'mixers',
-    image: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=600&q=80'
-  }
-];
+import { categories } from '@/data/categories';
 
 export default function Categories() {
   return (
     <section className="relative py-24 bg-white overflow-hidden">
       
-      {/* Подключаем анимированный фон с меньшей прозрачностью */}
       <AnimatedBackground opacity={0.05} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Заголовок секции */}
-        <div className="mb-16">
-          <p className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-4">
-            Категории
-          </p>
-          <h2 className="text-5xl lg:text-6xl font-light text-gray-900 tracking-tight">
-            Наша коллекция
-          </h2>
-        </div>
+        <div className="mb-16 text-center">
+  <div className="flex items-center justify-center gap-6 mb-8">
+    <div className="w-16 h-px bg-gray-900"></div>
+    <p className="text-xs uppercase tracking-[0.3em] text-gray-500 font-medium">
+      Категории
+    </p>
+    <div className="w-16 h-px bg-gray-900"></div>
+  </div>
+  <h2 className="text-5xl lg:text-6xl font-light text-gray-900 tracking-tight">
+    Наша коллекция
+  </h2>
+</div>
 
-        {/* Сетка категорий */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-gray-200">
           {categories.map((category) => (
             <Link

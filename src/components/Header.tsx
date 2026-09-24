@@ -27,8 +27,8 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header className="fixed top-0 left-0 w-screen z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 box-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Логотип */}
             <Link 
@@ -54,12 +54,14 @@ export default function Header() {
 
             {/* Кнопка заказа (десктоп) */}
             <div className="hidden md:flex items-center">
-              <button className="text-sm text-gray-900 font-medium tracking-wide border border-gray-900 px-6 py-2 hover:bg-gray-900 hover:text-white transition-colors">
+              <button 
+                className="text-sm text-gray-900 font-medium tracking-wide border border-gray-900 px-6 py-2 hover:bg-gray-900 hover:text-white transition-colors"
+              >
                 Заказать
               </button>
             </div>
 
-            {/* Бургер-кнопка (мобильная) — скрывается когда меню открыто */}
+            {/* Бургер-кнопка (мобильная) */}
             <AnimatePresence>
               {!isMenuOpen && (
                 <motion.button
@@ -78,7 +80,7 @@ export default function Header() {
               )}
             </AnimatePresence>
           </div>
-        </nav>
+        </div>
       </header>
 
       {/* Мобильное меню */}
@@ -101,11 +103,11 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed top-0 right-0 bottom-0 w-full sm:w-96 bg-white z-50 md:hidden"
+              className="fixed top-0 right-0 bottom-0 w-screen sm:w-96 bg-white z-50 md:hidden"
             >
-              <div className="flex flex-col h-full">
+              <div className="flex flex-col h-full overflow-y-auto">
                 {/* Шапка меню */}
-                <div className="flex items-center justify-between h-20 px-4 sm:px-6 border-b border-gray-100">
+                <div className="flex items-center justify-between h-20 px-4 sm:px-6 border-b border-gray-100 flex-shrink-0">
                   <span className="text-xl font-light tracking-widest text-gray-900 uppercase">
                     Menu
                   </span>
@@ -145,7 +147,7 @@ export default function Header() {
                 </nav>
 
                 {/* Кнопка заказа внизу */}
-                <div className="px-4 sm:px-6 pb-12">
+                <div className="px-4 sm:px-6 pb-12 flex-shrink-0">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
