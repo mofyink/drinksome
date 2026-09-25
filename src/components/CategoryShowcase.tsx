@@ -6,32 +6,12 @@ import Link from 'next/link';
 import { categories } from '@/data/categories';
 import AnimatedBackground from './AnimatedBackground';
 
-// Маппинг showcase категорий на категории товаров
-function getCategoryFilter(slug: string): string {
-  const mapping: Record<string, string> = {
-    'spirits': 'Спириты',
-    'bases': 'Основы',
-    'drinks': 'Напитки',
-    'tonic': 'Тоники',
-    'bitters': 'Биттеры',
-  };
-  return mapping[slug] || slug;
-}
-
-// Дублируем категории до 7 штук
-const showcaseCategories = [
-  ...categories,
-  { ...categories[0], id: 5, title: 'Премиум спириты', description: 'Эксклюзивная коллекция для ценителей', slug: 'spirits' },
-  { ...categories[1], id: 6, title: 'Авторские основы', description: 'Уникальные рецепты от барменов', slug: 'bases' },
-  { ...categories[2], id: 7, title: 'Сезонные напитки', description: 'Лимитированные коллекции', slug: 'drinks' },
-];
-
 export default function CategoryShowcase() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1400);
+      setIsMobile(window.innerWidth < 1024);
     };
 
     checkMobile();
@@ -41,7 +21,7 @@ export default function CategoryShowcase() {
   }, []);
 
   return (
-    <section className="relative bg-white">
+    <section className="relative bg-white overflow-hidden">
       
       {/* Анимированный фон */}
       <AnimatedBackground opacity={0.04} />
@@ -66,7 +46,7 @@ export default function CategoryShowcase() {
         {/* Мобильная версия */}
         {isMobile && (
           <div className="space-y-8 px-4 pb-8">
-            {showcaseCategories.map((category, index) => (
+            {categories.map((category, index) => (
               <MobileCard 
                 key={category.id} 
                 category={category} 
@@ -80,7 +60,7 @@ export default function CategoryShowcase() {
         {!isMobile && (
           <div className="w-full overflow-x-auto">
             <div className="flex justify-center" style={{ width: 'max-content', minWidth: '100%' }}>
-              {showcaseCategories.map((category, index) => (
+              {categories.map((category, index) => (
                 <DesktopCard 
                   key={category.id} 
                   category={category} 
@@ -95,9 +75,9 @@ export default function CategoryShowcase() {
   );
 }
 
-// Мобильная карточка — появляется справа, высота 50% экрана
+// Мобильная карточка — появляется справа с небольшим сдвигом
 function MobileCard({ category, index }: { 
-  category: typeof showcaseCategories[0]; 
+  category: typeof categories[0]; 
   index: number;
 }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -124,10 +104,11 @@ function MobileCard({ category, index }: {
   return (
     <Link
       ref={ref}
-      href={`/catalog?category=${getCategoryFilter(category.slug)}`}
-      className="block relative w-full h-[50vh] transition-transform duration-700 ease-out"
+      href={`/catalog?category=${encodeURIComponent(category.title)}`}
+      className="block relative w-full h-[50vh] transition-all duration-700 ease-out"
       style={{
-        transform: isVisible ? 'translateX(0)' : 'translateX(100%)',
+        transform: isVisible ? 'translateX(0)' : 'translateX(20px)',
+        opacity: isVisible ? 1 : 0,
       }}
     >
       <div className="relative w-full h-full overflow-hidden">
@@ -159,12 +140,12 @@ function MobileCard({ category, index }: {
 
 // Десктопная карточка — перекрывается и выезжает при наведении
 function DesktopCard({ category, index }: { 
-  category: typeof showcaseCategories[0]; 
+  category: typeof categories[0]; 
   index: number;
 }) {
   return (
     <Link
-      href={`/catalog?category=${getCategoryFilter(category.slug)}`}
+      href={`/catalog?category=${encodeURIComponent(category.title)}`}
       className="group relative w-[350px] h-screen flex-shrink-0 transition-all duration-700 ease-out hover:-translate-x-20 hover:z-50"
       style={{
         marginLeft: index === 0 ? '0' : '-100px',

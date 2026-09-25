@@ -1,25 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import ProductModal from '@/components/ProductModal';
 import { products } from '@/data/products';
 
+import { categories as dataCategories } from '@/data/categories';
+
+// Автоматически генерируем фильтры из данных
 const categories = [
   { id: 'all', name: 'Все продукты' },
-  { id: 'spirits', name: 'Спириты' },
-  { id: 'bases', name: 'Основы' },
-  { id: 'drinks', name: 'Напитки' },
-  { id: 'mixers', name: 'Миксеры' }
+  ...dataCategories.map(c => ({ id: c.slug, name: c.title })),
 ];
 
 export default function CatalogPage() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const searchParams = useSearchParams();
+  
+  // 1. Читаем название категории из URL (например, "Спириты" или "spirits")
+  const urlCategory = searchParams.get('category');
+
+  // 2. Находим соответствующий ID в нашем массиве категорий
+  const getInitialCategory = () => {
+    if (!urlCategory) return 'all';
+    // Ищем совпадение либо по имени (Спириты), либо по ID (spirits)
+    const found = categories.find(c => c.name === urlCategory || c.id === urlCategory);
+    return found ? found.id : 'all';
+  };
+
+  const [selectedCategory, setSelectedCategory] = useState(getInitialCategory());
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
 
+  // 3. Фильтрация теперь работает корректно, так как selectedCategory инициализирован правильно
   const filteredProducts = selectedCategory === 'all' 
     ? products 
-    : products.filter(p => p.category === selectedCategory);
+    : products.filter(p => p.category === selectedCategory || p.categoryName === selectedCategory);
 
   return (
     <>

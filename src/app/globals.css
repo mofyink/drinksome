@@ -176,3 +176,9 @@ body {
 .animate-slow-zoom {
   animation: slow-zoom 20s ease-in-out infinite alternate;
 }
+
+
+/* Дополнительно: гарантируем, что все элементы не выходят за границы */
+* {
+  box-sizing: border-box;
+}

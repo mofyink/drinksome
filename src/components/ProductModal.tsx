@@ -3,45 +3,36 @@
 import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
 import { useEffect } from 'react';
+import { type Product } from '@/data/products'; // Импортируем тип из data
 
-interface ProductModalProps {
-  product: {
-    id: number;
-    name: string;
-    category: string;
-    categoryName: string;
-    price: number;
-    volume: string;
-    image: string;
-    description: string;
-    ingredients: string;
-    slug: string;
-  };
-  onClose: () => void;
-}
+// Описываем типы прямо здесь, без лишнего интерфейса
+export default function ProductModal({ 
+  product, 
+  onClose 
+}: { 
+  product: Product; 
+  onClose: () => void; 
+}) {
+      useEffect(() => {
+    // Сохраняем исходное состояние
+    const originalOverflow = document.body.style.overflow;
 
-export default function ProductModal({ product, onClose }: ProductModalProps) {
-  // Закрытие по Escape
-  useEffect(() => {
+    // Просто блокируем вертикальный скролл. 
+    // Горизонтальный уже заблокирован глобально в globals.css!
+    document.body.style.overflow = 'hidden';
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
     };
-
-    // Получаем ширину скроллбар
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     
-    // Добавляем padding-right чтобы компенсировать исчезновение скроллбар
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
-    document.body.style.overflow = 'hidden';
-
     document.addEventListener('keydown', handleEscape);
 
+    // Восстанавливаем при закрытии
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.paddingRight = '';
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = originalOverflow;
     };
   }, [onClose]);
 
@@ -126,10 +117,10 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             <div className="mt-8 pt-8 border-t border-gray-200">
               {/* Ссылка на товар в магазине — замени href на нужный URL */}
 <a 
-  href={`https://example.com/product/${product.slug}`}
+  href={product.shopUrl}
   target="_blank"
   rel="noopener noreferrer"
-  className="block w-full py-3 bg-gray-900 text-white text-xs font-medium tracking-widest uppercase hover:bg-gray-800 transition-colors text-center"
+  className="block w-full py-4 bg-gray-900 text-white text-xs font-medium tracking-widest uppercase hover:bg-gray-800 transition-colors text-center"
 >
   Заказать
 </a>
