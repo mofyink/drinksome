@@ -4,12 +4,21 @@ import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isVisible, setIsVisible] = useState(false);
+  const [isSupported, setIsSupported] = useState(false);
 
   useEffect(() => {
-    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
-    if (!hasFinePointer) return;
+    const mediaQuery = window.matchMedia('(pointer: fine)');
+    
+    if (!mediaQuery.matches) {
+      return;
+    }
+
+    // Используем requestAnimationFrame, чтобы избежать синхронного setState
+    requestAnimationFrame(() => {
+      setIsSupported(true);
+    });
 
     const updateCursor = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
@@ -30,7 +39,7 @@ export default function CustomCursor() {
     };
   }, []);
 
-  if (typeof window !== 'undefined' && !window.matchMedia('(pointer: fine)').matches) {
+  if (!isSupported) {
     return null;
   }
 

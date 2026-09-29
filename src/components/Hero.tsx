@@ -9,25 +9,25 @@ import AnimatedBackground from './AnimatedBackground';
 const heroSlides = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=1000&q=80',
+    image: '/test.jpeg',
     collection: '26',
     alt: 'Безалкогольные напитки премиум класса'
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=1000&q=80',
+    image: '/test.jpeg',
     collection: '25',
     alt: 'Новая коллекция напитков'
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=1000&q=80',
+    image: '/test.jpeg',
     collection: '24',
     alt: 'Премиальные миксеры'
   },
   {
     id: 4,
-    image: 'https://images.unsplash.com/photo-1622543925917-1856240108ae?w=1000&q=80',
+    image: '/test.jpeg',
     collection: '23',
     alt: 'Освежающие напитки'
   }

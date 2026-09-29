@@ -19,6 +19,22 @@
   }
 }
 
+/* Универсальное скрытие точки на мобильных */
+@media (hover: none) {
+  body::before,
+  body::after,
+  html::before,
+  html::after {
+    display: none !important;
+    content: none !important;
+  }
+  
+  /* Скрываем любые фиксированные точки */
+  [style*="position: fixed"][style*="width:"][style*="height:"] {
+    display: none !important;
+  }
+}
+
 /* Предотвращаем горизонтальный скролл */
 html,
 body {
@@ -182,3 +198,4 @@ body {
 * {
   box-sizing: border-box;
 }
+

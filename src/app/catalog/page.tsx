@@ -1,29 +1,27 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import ProductModal from '@/components/ProductModal';
 import { products } from '@/data/products';
-
 import { categories as dataCategories } from '@/data/categories';
 
-// Автоматически генерируем фильтры из данных
+// Генерируем фильтры из данных (как мы договаривались ранее)
 const categories = [
   { id: 'all', name: 'Все продукты' },
   ...dataCategories.map(c => ({ id: c.slug, name: c.title })),
 ];
 
-export default function CatalogPage() {
+// 1. Выносим всю логику с useSearchParams в отдельный компонент
+function CatalogContent() {
   const searchParams = useSearchParams();
   
-  // 1. Читаем название категории из URL (например, "Спириты" или "spirits")
-  const urlCategory = searchParams.get('category');
+  // Безопасное получение параметра (с защитой от null при сборке)
+  const urlCategory = searchParams?.get('category') || null;
 
-  // 2. Находим соответствующий ID в нашем массиве категорий
   const getInitialCategory = () => {
     if (!urlCategory) return 'all';
-    // Ищем совпадение либо по имени (Спириты), либо по ID (spirits)
     const found = categories.find(c => c.name === urlCategory || c.id === urlCategory);
     return found ? found.id : 'all';
   };
@@ -31,7 +29,6 @@ export default function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState(getInitialCategory());
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
 
-  // 3. Фильтрация теперь работает корректно, так как selectedCategory инициализирован правильно
   const filteredProducts = selectedCategory === 'all' 
     ? products 
     : products.filter(p => p.category === selectedCategory || p.categoryName === selectedCategory);
@@ -76,11 +73,7 @@ export default function CatalogPage() {
                       layoutId="activeFilter"
                       className="absolute inset-0 bg-gray-900"
                       initial={false}
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 30
-                      }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />
                   )}
                   <span className="relative z-10">{category.name}</span>
@@ -147,6 +140,19 @@ export default function CatalogPage() {
         )}
       </AnimatePresence>
     </>
+  );
+}
+
+// 2. Главный компонент теперь просто оборачивает логику в Suspense
+export default function CatalogPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <p className="text-gray-500 text-sm tracking-widest uppercase">Загрузка каталога...</p>
+      </div>
+    }>
+      <CatalogContent />
+    </Suspense>
   );
 }
 

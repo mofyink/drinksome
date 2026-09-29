@@ -147,7 +147,7 @@ export default function Philosophy() {
       {/* Изображение с clip-path */}
       <foreignObject x="0" y="0" width="100%" height="100%" clipPath="url(#organicShape)">
         <Image 
-          src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800&q=80"
+          src="/test.jpeg"
           alt="Философия бренда"
           fill
           className="object-cover"
